@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Happy Birthday Arya ❤️</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ffd6e7, #fff0f7);
+            color: #8b005d;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100vh;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* ================= MAILBOX ================= */
+
+        .mail-title {
+            font-size: 27px;
+            margin-bottom: 35px;
+            animation: float 2s infinite ease-in-out;
+        }
+
+        .mailbox {
+            position: relative;
+            width: 260px;
+            height: 190px;
+            cursor: pointer;
+            animation: bounce 2s infinite;
+        }
+
+        .mail-body {
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            width: 220px;
+            height: 125px;
+            background: #ff4f81;
+            border: 5px solid #c9184a;
+            border-radius: 15px;
+        }
+
+        .mail-top {
+            position: absolute;
+            left: 20px;
+            top: 5px;
+            width: 220px;
+            height: 100px;
+            background: #ff4f81;
+            border: 5px solid #c9184a;
+            border-radius: 110px 110px 0 0;
+        }
+
+        .envelope {
+            position: absolute;
+            left: 85px;
+            top: 55px;
+            width: 90px;
+            height: 65px;
+            background: white;
+            border: 3px solid #555;
+            font-size: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+        }
+
+        .flag {
+            position: absolute;
+            right: 5px;
+            top: 0;
+            width: 8px;
+            height: 80px;
+            background: #444;
+            z-index: 5;
+        }
+
+        .flag::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 5px;
+            width: 45px;
+            height: 28px;
+            background: #ffd700;
+        }
+
+        .tap-text {
+            margin-top: 30px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* ================= MESSAGE ================= */
+
+        .message-title {
+            font-size: 30px;
+            color: #ff1493;
+        }
+
+        .arya {
+            font-size: 42px;
+            font-weight: bold;
+            color: #d1006f;
+            animation: heartbeat 1.4s infinite;
+        }
+
+        .message {
+            max-width: 600px;
+            font-size: 19px;
+            line-height: 1.7;
+            color: #6a006a;
+            margin-top: 15px;
+        }
+
+        .next-btn,
+        .action-btn {
+            border: none;
+            border-radius: 30px;
+            padding: 15px 25px;
+            margin: 12px;
+            font-size: 17px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #ff1493, #ff4f81);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .next-btn:active,
+        .action-btn:active {
+            transform: scale(0.95);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.7;
+            cursor: default;
+        }
+
+        /* ================= CAKE ================= */
+
+        .cake-title {
+            font-size: 29px;
+            color: #ff1493;
+        }
+
+        .cake-area {
+            position: relative;
+            width: 320px;
+            height: 330px;
+            margin-top: 10px;
+        }
+
+        .plate {
+            position: absolute;
+            bottom: 5px;
+            left: 20px;
+            width: 280px;
+            height: 35px;
+            background: #ddd;
+            border-radius: 50%;
+        }
+
+        .cake {
+            position: absolute;
+            bottom: 35px;
+            left: 45px;
+            width: 230px;
+            height: 145px;
+            background: #ff72a0;
+            border: 4px solid #c9184a;
+            border-radius: 15px 15px 10px 10px;
+        }
+
+        .cream {
+            position: absolute;
+            top: -30px;
+            left: -4px;
+            width: 230px;
+            height: 60px;
+            background: white;
+            border: 4px solid #ffb6c1;
+            border-radius: 50%;
+        }
+
+        .candle {
+            position: absolute;
+            bottom: 175px;
+            left: 145px;
+            width: 25px;
+            height: 75px;
+            background: repeating-linear-gradient(
+                45deg,
+                #00bfff,
+                #00bfff 8px,
+                white 8px,
+                white 16px
+            );
+            border-radius: 4px;
+        }
+
+        .flame {
+            position: absolute;
+            bottom: 248px;
+            left: 145px;
+            width: 27px;
+            height: 42px;
+            background: #ff9800;
+            border-radius: 50%;
+            box-shadow: 0 0 25px #ff9800;
+            animation: flame 0.6s infinite alternate;
+        }
+
+        .flame.off {
+            display: none;
+        }
+
+        .wish {
+            font-size: 19px;
+            font-weight: bold;
+            color: #8b008b;
+            max-width: 350px;
+        }
+
+        .mic-status {
+            margin-top: 5px;
+            font-size: 15px;
+            color: #7a006b;
+            min-height: 25px;
+        }
+
+        /* ================= FINAL ================= */
+
+        #confetti {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .final-title,
+        .final-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .final-title {
+            font-size: 37px;
+            color: #ff1493;
+            animation: heartbeat 1.2s infinite;
+        }
+
+        .final-text {
+            font-size: 20px;
+            line-height: 1.6;
+        }
+
+        /* ================= ANIMATIONS ================= */
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+        }
+
+        @keyframes flame {
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.12);
+            }
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(110vh) rotate(720deg);
+            }
+        }
+
+        @keyframes balloonUp {
+            to {
+                transform: translateY(-120vh);
+            }
+        }
+
+        .confetti-piece {
+            position: fixed;
+            top: -20px;
+            width: 10px;
+            height: 18px;
+            animation: confettiFall 4s linear forwards;
+        }
+
+        .balloon {
+            position: fixed;
+            bottom: -100px;
+            font-size: 45px;
+            animation: balloonUp 5s linear forwards;
+            z-index: 3;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 600px) {
+            .mail-title {
+                font-size: 22px;
+                max-width: 330px;
+            }
+
+            .message-title {
+                font-size: 25px;
+            }
+
+            .arya {
+                font-size: 36px;
+            }
+
+            .message {
+                font-size: 17px;
+                max-width: 340px;
+            }
+
+            .cake-title {
+                font-size: 25px;
+            }
+
+            .final-title {
+                font-size: 30px;
+            }
+
+            .final-text {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= SCREEN 1 — MAILBOX ================= -->
+
+    <section id="mailboxScreen" class="screen active">
+
+        <div class="mail-title">
+            💌 Arya, someone left a
+            <br>
+            special surprise for you...
+        </div>
+
+        <div class="mailbox" onclick="openLetter()">
+
+            <div class="flag"></div>
+
+            <div class="mail-top"></div>
+
+            <div class="mail-body"></div>
+
+            <div class="envelope">
+                💌
+            </div>
+
+        </div>
+
+        <div class="tap-text">
+            👆 Tap the mailbox
+            <br>
+            to open your surprise
+        </div>
+
+    </section>
+
+
+    <!-- ================= SCREEN 2 — MESSAGE ================= -->
+
+    <section id="messageScreen" class="screen">
+
+        <div class="message-title">
+            💌 A Special Message For
+        </div>
+
+        <div class="arya">
+            ARYA ❤️
+        </div>
+
+        <div class="message">
+
+            Dear Arya,
+
+            <br><br>
+
+            🎉 HAPPY BIRTHDAY! 🎉
+
+            <br><br>
+
+            May your life always be filled
+            with happiness, love, laughter
+            and beautiful memories. ✨
+
+            <br><br>
+
+            You are very special and I hope
+            this little surprise makes your
+            day even more beautiful. ❤️
+
+        </div>
+
+        <button class="next-btn" onclick="showCake()">
+            🎂 Open Your Birthday Cake
+        </button>
+
+    </section>
+
+
+    <!-- ================= SCREEN 3 — CAKE ================= -->
+
+    <section id="cakeScreen" class="screen">
+
+        <div class="cake-title">
+            🎂 Make a Wish, Arya! 🎂
+        </div>
+
+        <div class="cake-area">
+
+            <div class="plate"></div>
+
+            <div class="cake">
+                <div class="cream"></div>
+            </div>
+
+            <div id="candle" class="candle"></div>
+
+            <div id="flame" class="flame"></div>
+
+        </div>
+
+        <div class="wish">
+            🌬️ Tap the button,
+            allow the microphone,
+            then blow toward your phone!
+        </div>
+
+        <div id="micStatus" class="mic-status">
+            🎤 Microphone is waiting...
+        </div>
+
+        <button
+            id="blowButton"
+            class="action-btn"
+            onclick="startBlowDetection()"
+        >
+            🎤 Start Candle Blow
+        </button>
+
+        <button
+            id="cutButton"
+            class="action-btn"
+            onclick="cutCake()"
+            style="display:none;"
+        >
+            🔪 Cut the Cake
+        </button>
+
+    </section>
+
+
+    <!-- ================= SCREEN 4 — FINAL ================= -->
+
+    <section id="finalScreen" class="screen">
+
+        <div id="confetti"></div>
+
+        <div class="final-title">
+            🎉 HAPPY BIRTHDAY ARYA! 🎉
+        </div>
+
+        <div class="final-text">
+
+            🎂 Cake Cut! 🎂
+
+            <br><br>
+
+            ❤️ May every wish you make
+            come true.
+
+            <br>
+
+            ✨ May your year be full
+            of happiness.
+
+            <br>
+
+            🌸 Keep smiling always!
+
+            <br><br>
+
+            With lots of love ❤️
+
+        </div>
+
+    </section>
+
+
+    <script>
+
+        /* ================= SCREEN CONTROL ================= */
+
+        function showScreen(id) {
+
+            document
+                .querySelectorAll(".screen")
+                .forEach(screen => {
+                    screen.classList.remove("active");
+                });
+
+            document
+                .getElementById(id)
+                .classList.add("active");
+        }
+
+
+        /* ================= OPEN MAILBOX ================= */
+
+        function openLetter() {
+
+            showScreen("messageScreen");
+
+        }
+
+
+        /* ================= SHOW CAKE ================= */
+
+        function showCake() {
+
+            showScreen("cakeScreen");
+
+        }
+
+
+        /* ================= MICROPHONE VARIABLES ================= */
+
+        let audioContext = null;
+        let analyser = null;
+        let microphone = null;
+        let microphoneStream = null;
+        let blowChecking = false;
+
+
+        /* ================= START MICROPHONE ================= */
+
+        async function startBlowDetection() {
+
+            const status =
+                document.getElementById("micStatus");
+
+            const button =
+                document.getElementById("blowButton");
+
+            try {
+
+                if (
+                    !navigator.mediaDevices ||
+                    !navigator.mediaDevices.getUserMedia
+                ) {
+
+                    status.innerHTML =
+                        "❌ Your browser does not support microphone access.";
+
+                    return;
+                }
+
+                status.innerHTML =
+                    "🎤 Asking for microphone permission...";
+
+                microphoneStream =
+                    await navigator.mediaDevices.getUserMedia({
+                        audio: true
+                    });
+
+                audioContext =
+                    new (
+                        window.AudioContext ||
+                        window.webkitAudioContext
+                    )();
+
+                analyser =
+                    audioContext.createAnalyser();
+
+                analyser.fftSize = 2048;
+
+                microphone =
+                    audioContext.createMediaStreamSource(
+                        microphoneStream
+                    );
+
+                microphone.connect(analyser);
+
+                blowChecking = true;
+
+                button.innerHTML =
+                    "🌬️ Blow toward your phone!";
+
+                status.innerHTML =
+                    "🎤 Microphone ON — Blow now! 🌬️";
+
+                detectBlow();
+
+            } catch (error) {
+
+                console.error(error);
+
+                status.innerHTML =
+                    "❌ Microphone permission was denied.";
+
+                button.innerHTML =
+                    "🎤 Try Microphone Again";
+            }
+        }
+
+
+        /* ================= DETECT BLOW ================= */
+
+        function detectBlow() {
+
+            if (!blowChecking) {
+                return;
+            }
+
+            const data =
+                new Uint8Array(analyser.fftSize);
+
+            analyser.getByteTimeDomainData(data);
+
+            let sum = 0;
+
+            for (let i = 0; i < data.length; i++) {
+
+                const value =
+                    (data[i] - 128) / 128;
+
+                sum += value * value;
+            }
+
+            const volume =
+                Math.sqrt(sum / data.length);
+
+            /*
+                Blow threshold.
+                If the microphone signal is strong
+                enough, the candle is blown out.
+            */
+
+            if (volume > 0.12) {
+
+                blowCandle();
+
+                return;
+            }
+
+            requestAnimationFrame(detectBlow);
+        }
+
+
+        /* ================= BLOW CANDLE ================= */
+
+        function blowCandle() {
+
+            if (!blowChecking) {
+                return;
+            }
+
+            blowChecking = false;
+
+            const flame =
+                document.getElementById("flame");
+
+            const button =
+                document.getElementById("blowButton");
+
+            const cutButton =
+                document.getElementById("cutButton");
+
+            const status =
+                document.getElementById("micStatus");
+
+            flame.classList.add("off");
+
+            button.innerHTML =
+                "✨ Candle Blown! ✨";
+
+            button.disabled = true;
+
+            status.innerHTML =
+                "🌬️ You blew out the candle! ❤️";
+
+            cutButton.style.display =
+                "inline-block";
+
+            if (microphoneStream) {
+
+                microphoneStream
+                    .getTracks()
+                    .forEach(track => track.stop());
+            }
+
+            if (audioContext) {
+
+                audioContext.close();
+            }
+        }
+
+
+        /* ================= CUT CAKE ================= */
+
+        function cutCake() {
+
+            showScreen("finalScreen");
+
+            createConfetti();
+
+            createBalloons();
+        }
+
+
+        /* ================= CONFETTI ================= */
+
+        function createConfetti() {
+
+            const container =
+                document.getElementById("confetti");
+
+            const colors = [
+                "#ff1493",
+                "#ffd700",
+                "#00bfff",
+                "#7fff00",
+                "#ff4500",
+                "#9400d3"
+            ];
+
+            for (let i = 0; i < 120; i++) {
+
+                const piece =
+                    document.createElement("div");
+
+                piece.className =
+                    "confetti-piece";
+
+                piece.style.left =
+                    Math.random() * 100 + "vw";
+
+                piece.style.background =
+                    colors[
+                        Math.floor(
+                            Math.random() * colors.length
+                        )
+                    ];
+
+                piece.style.animationDelay =
+                    Math.random() * 2 + "s";
+
+                container.appendChild(piece);
+            }
+        }
+
+
+        /* ================= BALLOONS ================= */
+
+        function createBalloons() {
+
+            const emojis = [
+                "🎈",
+                "🎈",
+                "🎈",
+                "❤️",
+                "💖",
+                "🎉"
+            ];
+
+            for (let i = 0; i < 20; i++) {
+
+                const balloon =
+                    document.createElement("div");
+
+                balloon.className =
+                    "balloon";
+
+                balloon.innerHTML =
+                    emojis[
+                        Math.floor(
+                            Math.random() * emojis.length
+                        )
+                    ];
+
+                balloon.style.left =
+                    Math.random() * 100 + "vw";
+
+                balloon.style.animationDelay =
+                    Math.random() * 3 + "s";
+
+                document.body.appendChild(balloon);
+            }
+        }
+
+    </script>
+
+</body>
+</html>
